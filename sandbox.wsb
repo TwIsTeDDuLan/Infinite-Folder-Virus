@@ -1,0 +1,12 @@
+<configuration>
+    <MappedFolders>
+        <MappedFolder>
+            <HostFolder>D:\mber</HostFolder>
+            <SandboxFolder>C:\mber</SandboxFolder>
+        </MappedFolder>
+        <MappedFolder>
+            <HostFolder>D:\Projects\Infinite-Folder-Virus</HostFolder>
+            <SandboxFolder>C:\Infinite-Folder-Virus</SandboxFolder>
+        </MappedFolder>
+    </MappedFolders>
+</configuration>
