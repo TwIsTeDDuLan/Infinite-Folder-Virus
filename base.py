@@ -13,9 +13,10 @@ import random
 
 def main():
     drives = list_drives()
-
+    PATH = ''
     for drive in drives:
-        file_cruser(drive)
+        PATH += drive
+        file_cruser(PATH)
     return
 
 def list_drives():
@@ -28,6 +29,16 @@ def list_drives():
     
     return drives
 
-def file_cruser(drive):
-    PATH += drive
-    
+def list_file(PATH):
+    folders = [folder for folder in os.listdir(PATH)]
+    return folders
+
+def file_cruser(PATH):
+    folders = list_file(PATH)
+
+    if len(folders) > 0:
+        newPATH = PATH
+        for folder in folders:
+            newPATH += '/' + folder
+            file_cruser(newPATH)
+        
