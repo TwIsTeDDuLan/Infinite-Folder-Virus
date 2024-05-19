@@ -1,10 +1,6 @@
 <configuration>
     <MappedFolders>
         <MappedFolder>
-            <HostFolder>D:\TV-Series</HostFolder>
-            <SandboxFolder>C:\TV-Series</SandboxFolder>
-        </MappedFolder>
-        <MappedFolder>
             <HostFolder>D:\Projects\Infinite-Folder-Virus</HostFolder>
             <SandboxFolder>C:\Infinite-Folder-Virus</SandboxFolder>
             <ReadOnly>True</ReadOnly>
