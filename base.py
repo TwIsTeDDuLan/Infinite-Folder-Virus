@@ -37,8 +37,8 @@ def file_cruser(PATH):
     folders = list_file(PATH)
 
     if len(folders) > 0:
-        newPATH = PATH
         for folder in folders:
+            newPATH = PATH
             newPATH += '/' + folder
             file_cruser(newPATH)
         
