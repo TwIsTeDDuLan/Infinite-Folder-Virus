@@ -14,22 +14,16 @@ def folderMaker():
     for i in range(4):
         os.mkdir(chr(97+i))
     
-    os.chdir("E:/Abb/a")
+    os.chdir("E:/Abb/b")
 
     for i in range(3):
         os.mkdir(chr(97+i))
 
+    os.chdir("E:/Abb/a")
 
-def main():
-    inp = int(input("what want?"))
-    if inp == 1:
-        folderMaker()
-    else:
-        FolderRemove()
+    for i in range(3):
+        os.mkdir(chr(97+i))
+    return
 
-try:
-    while True:
-        main()
-except:
-    while True:
-        main()
+
+folderMaker()

@@ -5,5 +5,10 @@
             <SandboxFolder>C:\Infinite-Folder-Virus</SandboxFolder>
             <ReadOnly>True</ReadOnly>
         </MappedFolder>
+        <MappedFolder>
+            <HostFolder>E:\Abb</HostFolder>
+            <SandboxFolder>C:\Abb</SandboxFolder>
+            <ReadOnly>True</ReadOnly>
+        </MappedFolder>
     </MappedFolders>
 </configuration>

