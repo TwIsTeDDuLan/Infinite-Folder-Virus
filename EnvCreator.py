@@ -10,13 +10,13 @@ def folderMaker():
     os.mkdir("Abb")
     os.chdir("E:/Abb/")
 
-    for i in range(4):
+    for i in range(2):
         os.mkdir(chr(97+i))
     
-    os.chdir("E:/Abb/b")
+    #os.chdir("E:/Abb/b")
 
-    for i in range(3):
-        os.mkdir(chr(97+i))
+    #for i in range(3):
+        #os.mkdir(chr(97+i))
 
     os.chdir("E:/Abb/a")
 
