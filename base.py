@@ -1,22 +1,25 @@
 import os,shutil,random,ctypes,sys
+from EnvCreator import EnvCreator
 
-#get into a drive
-#Duplicate the folders
-    #change the original file
-    #if there are files inside of it
-        #redo duplicate
-    #else
-        #redo getinto
-#redo 
+FILE = open("E:/logCTF.txt","w")
+
+TotalDuplications = [0]
+TotalMoves = [0]
+TotlInaccecibleFiles = [0]
+TotalUnsuccessfulTreeDuplications = [0]
+TotalUnsuccessfulFolderDuplications = [0]
 
 def main():
     #"E:/Abb/"
-    PATH = ''
+    PATH = 'E:/'
     drives = list_drives()
     #for drive in drives:
         #PATH += drive
+    drive = "E:/"
+    EnvCreator(1,drive,FILE)
+    PATH += "Abb/"
     file_cruser(PATH)
-    return
+    EnvCreator(2,drive,FILE)
 
 def list_drives():
     drives = []
@@ -42,7 +45,7 @@ def file_cruser(PATH):
         for folder in folders:
             newPATH = PATH
             newPATH += '/' + folder
-            #print("Currently in:\n",newPATH)
+            print("Currently in:\n",newPATH)
             file_cruser(newPATH)
             NextFolders = list_file(newPATH)
             if len(NextFolders) > 0:
@@ -50,6 +53,7 @@ def file_cruser(PATH):
                     Duplicate(PATH,folder)
                 except Exception as e:
                     print(f"Couldn't duplicate the tree:{e}")
+                    TotalUnsuccessfulTreeDuplications[0] += 1
             else:
                 pass
 
@@ -61,6 +65,7 @@ def file_cruser(PATH):
             Duplicate(Path,FolderName)
         except Exception as e:
             print(f"Couldn't duplicate the folder:{e}")
+            TotalUnsuccessfulFolderDuplications[0] += 1
 
 def Duplicate(PATH,Name):
     #print("Duplicated:",PATH,f"({Name})")
@@ -75,6 +80,7 @@ def Duplicate(PATH,Name):
         newName = f"{Name}{i}"
         try:
             os.mkdir(newName)
+            TotalDuplications[0] += 1
         except:
             pass
 
@@ -90,6 +96,7 @@ def Duplicate(PATH,Name):
         HiderPath = dest
         dest += '/'
         destination = shutil.move(src,dest)
+        TotalMoves[0] += 1
     else:
         pass
 
@@ -99,10 +106,19 @@ def is_admin():
     except:
         return False
 
-if __name__ == "__main__":
+def MAIN():
     if is_admin():
         try:
             main()
+            txt = f"DUPLICATIONS: {TotalDuplications[0]} \n Moves: {TotalMoves} \n TreeFails: {TotalUnsuccessfulFolderDuplications} \n FolderFails: {TotalUnsuccessfulFolderDuplications}"
+            FILE.write(txt)
+            FILE.close()
+            try:
+                os.chdir("E:/")
+                os.system("logCTF.txt")
+            except:
+                input("couln't open long file")
+            input("Press Enter to exit...")
         except Exception as e:
             print(f"An error occurred: {e}")
             input("Press Enter to exit...")
@@ -113,7 +129,17 @@ if __name__ == "__main__":
         params = ' '.join([script] + sys.argv[1:])
         try:
             ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
-            input("Press Enter to exit...")
         except Exception as e:
             print(f"Failed to elvavate to admin previlages: {e}")
+            input("Press Enter to exit...")
+
+
+try:
+            main()
+            txt = f"DUPLICATIONS: {TotalDuplications[0]} \n Moves: {TotalMoves} \n TreeFails: {TotalUnsuccessfulFolderDuplications} \n FolderFails: {TotalUnsuccessfulFolderDuplications}"
+            FILE.write(txt)
+            FILE.close()
+            input("Press Enter to exit...")
+except Exception as e:
+            print(f"An error occurred: {e}")
             input("Press Enter to exit...")
