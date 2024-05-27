@@ -1,47 +1,66 @@
 import ctypes
 import os,sys,shutil
 
-def FolderRemove(drive):
-    shutil.rmtree(f"{drive}Abb/")
+def FolderRemove():
+    
+    shutil.rmtree(f"E:/Abb/")
 
-def folderMaker(drive):
+def folderMaker():
     os.chdir("E:/")
     os.mkdir("Abb")
-    os.chdir(f"{drive}Abb/")
+    os.chdir("E:/Abb/")
 
-    for i in range(2):
+    for i in range(4):
         os.mkdir(chr(97+i))
     
-    os.chdir(f"{drive}Abb/b")
+    os.chdir("E:/Abb/b")
 
     for i in range(3):
         os.mkdir(chr(97+i))
 
-    os.chdir(f"{drive}Abb/a")
+    os.chdir("E:/Abb/a")
 
     for i in range(3):
         os.mkdir(chr(97+i))
 
-    os.chdir(drive)
-    
-def EnvCreator(inp,drive, FILE):
-    if inp == 1:
-        try:
-            folderMaker(drive)
-            return 1
-        except Exception as e:
-            FILE.write(f"\n{e}\n")
-            input(f"File creation error.:{e}")
-            return 2
+    os.chdir("E:/")
+    return
 
-    elif inp == 2:
+def IsAdmin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+    
+def main():
+    while True:
+        os.system('cls')
+        inp = int(input("1.Create\n2.Remove\n"))
+        if inp == 1:
+            folderMaker()
+        
+        elif inp == 2:
+            FolderRemove()
+
+        else:
+            pass
+
+if __name__ == "__main__":
+    if IsAdmin():
         try:
-            FolderRemove(drive)
-            return 1
+            main()
+            input("Press Enter to exit...")
         except Exception as e:
-            FILE.write(f"\n{e}\n")
-            input(f"File deletion error.:{e}")
-            return 2
+            print(f"An error occurred: {e}")
+            input("Press Enter to exit...")
+    
     else:
-        return 3
-        pass
+        print("Not running as administrator. Re-running with admin privileges...")
+        script = os.path.abspath(sys.argv[0])
+        params = ' '.join([script] + sys.argv[1:])
+        try:
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
+            input("Press Enter to exit...")
+        except Exception as e:
+            print(f"Failed to elvavate to admin previlages: {e}")
+            input("Press Enter to exit...")

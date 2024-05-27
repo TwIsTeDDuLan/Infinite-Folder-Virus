@@ -1,25 +1,25 @@
-import os,shutil,random,ctypes,sys
-from EnvCreator import EnvCreator
+import os
+import shutil
+import random
+import ctypes
+import sys
 
-FILE = open("E:/logCTF.txt","w")
-
-TotalDuplications = [0]
-TotalMoves = [0]
-TotlInaccecibleFiles = [0]
-TotalUnsuccessfulTreeDuplications = [0]
-TotalUnsuccessfulFolderDuplications = [0]
+#get into a drive
+#Duplicate the folders
+    #change the original file
+    #if there are files inside of it
+        #redo duplicate
+    #else
+        #redo getinto
+#redo 
 
 def main():
-    #"E:/Abb/"
-    PATH = 'E:/'
+    PATH = 'E:/Abb/'
     drives = list_drives()
     #for drive in drives:
         #PATH += drive
-    drive = "E:/"
-    EnvCreator(1,drive,FILE)
-    PATH += "Abb/"
     file_cruser(PATH)
-    EnvCreator(2,drive,FILE)
+    return
 
 def list_drives():
     drives = []
@@ -47,15 +47,10 @@ def file_cruser(PATH):
             newPATH += '/' + folder
             print("Currently in:\n",newPATH)
             file_cruser(newPATH)
-            NextFolders = list_file(newPATH)
-            if len(NextFolders) > 0:
-                try:
-                    Duplicate(PATH,folder)
-                except Exception as e:
-                    print(f"Couldn't duplicate the tree:{e}")
-                    TotalUnsuccessfulTreeDuplications[0] += 1
-            else:
-                pass
+            try:
+                Duplicate(PATH,folder)
+            except Exception as e:
+                print(f"Couldn't duplicate the tree:{e}")
 
     else:
         newPathList = PATH.rsplit('/',1)
@@ -65,40 +60,34 @@ def file_cruser(PATH):
             Duplicate(Path,FolderName)
         except Exception as e:
             print(f"Couldn't duplicate the folder:{e}")
-            TotalUnsuccessfulFolderDuplications[0] += 1
 
 def Duplicate(PATH,Name):
-    #print("Duplicated:",PATH,f"({Name})")
-    try:
-        os.chdir(PATH)
-    except Exception as e:
-        print(e)
-        input("Press Enter to exit...")
+    print("Duplicated:",PATH,f"({Name})")
+    os.chdir(PATH)
     
     duplicates = 5
     for i in range(duplicates):
         newName = f"{Name}{i}"
         try:
             os.mkdir(newName)
-            TotalDuplications[0] += 1
         except:
             pass
 
     duplicatedFolders = [folder for folder in os.listdir(PATH) if Name in folder]
-    #print(duplicatedFolders)
-    HiderPath = ''
+    print(duplicatedFolders)
     
     max = len(duplicatedFolders) - 1
     if max > 1:
         index = random.randint(1,max)
         src = PATH + '/' + Name
-        dest = PATH + '/' + duplicatedFolders[index]
-        HiderPath = dest
-        dest += '/'
+        dest = PATH + '/' + duplicatedFolders[index] + '/'
         destination = shutil.move(src,dest)
-        TotalMoves[0] += 1
+        print(f"Moved to:{duplicatedFolders[index]}")
     else:
         pass
+
+def duplicate(PATH,folder):
+    print("Duplicated:\n",PATH,f"({folder})")
 
 def is_admin():
     try:
@@ -106,18 +95,10 @@ def is_admin():
     except:
         return False
 
-def MAIN():
+def Main():
     if is_admin():
         try:
             main()
-            txt = f"DUPLICATIONS: {TotalDuplications[0]} \n Moves: {TotalMoves} \n TreeFails: {TotalUnsuccessfulFolderDuplications} \n FolderFails: {TotalUnsuccessfulFolderDuplications}"
-            FILE.write(txt)
-            FILE.close()
-            try:
-                os.chdir("E:/")
-                os.system("logCTF.txt")
-            except:
-                input("couln't open long file")
             input("Press Enter to exit...")
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -129,16 +110,13 @@ def MAIN():
         params = ' '.join([script] + sys.argv[1:])
         try:
             ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
+            input("Press Enter to exit...")
         except Exception as e:
             print(f"Failed to elvavate to admin previlages: {e}")
             input("Press Enter to exit...")
 
-
 try:
             main()
-            txt = f"DUPLICATIONS: {TotalDuplications[0]} \n Moves: {TotalMoves} \n TreeFails: {TotalUnsuccessfulFolderDuplications} \n FolderFails: {TotalUnsuccessfulFolderDuplications}"
-            FILE.write(txt)
-            FILE.close()
             input("Press Enter to exit...")
 except Exception as e:
             print(f"An error occurred: {e}")
