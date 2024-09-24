@@ -22,7 +22,7 @@ def folderMaker(drive):
     for i in range(3):
         os.mkdir(chr(97+i))
 
-    os.chdir(drive)
+    os.chdir('E:/')
     
 def EnvCreator(inp,drive, FILE):
     if inp == 1:

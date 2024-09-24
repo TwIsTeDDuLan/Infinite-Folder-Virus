@@ -1,5 +1,5 @@
 import os,shutil,random,ctypes,sys
-from EnvCreator import EnvCreator
+from EnvCreator import folderMaker
 
 FILE = open("E:/logCTF.txt","w")
 
@@ -16,10 +16,10 @@ def main():
     #for drive in drives:
         #PATH += drive
     drive = "E:/"
-    EnvCreator(1,drive,FILE)
+    folderMaker(drive)
     PATH += "Abb/"
     file_cruser(PATH)
-    EnvCreator(2,drive,FILE)
+    
 
 def list_drives():
     drives = []
@@ -106,13 +106,14 @@ def is_admin():
     except:
         return False
 
-def MAIN():
+if __name__ == "__main__":
     if is_admin():
         try:
             main()
             txt = f"DUPLICATIONS: {TotalDuplications[0]} \n Moves: {TotalMoves} \n TreeFails: {TotalUnsuccessfulFolderDuplications} \n FolderFails: {TotalUnsuccessfulFolderDuplications}"
             FILE.write(txt)
             FILE.close()
+            shutil.rmtree("E:/Abb")
             try:
                 os.chdir("E:/")
                 os.system("logCTF.txt")
@@ -134,12 +135,3 @@ def MAIN():
             input("Press Enter to exit...")
 
 
-try:
-            main()
-            txt = f"DUPLICATIONS: {TotalDuplications[0]} \n Moves: {TotalMoves} \n TreeFails: {TotalUnsuccessfulFolderDuplications} \n FolderFails: {TotalUnsuccessfulFolderDuplications}"
-            FILE.write(txt)
-            FILE.close()
-            input("Press Enter to exit...")
-except Exception as e:
-            print(f"An error occurred: {e}")
-            input("Press Enter to exit...")
